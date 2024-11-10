@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'application'
 }
 
@@ -19,7 +20,7 @@ java {
 }
 
 application {
-    mainClass = 'org.example.App'
+    mainClass = 'demo.App'
 }
 
 tasks.named('test') {
