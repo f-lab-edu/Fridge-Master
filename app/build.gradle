@@ -14,7 +14,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:31.0.1-jre'
     implementation(project(':app2'))
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
