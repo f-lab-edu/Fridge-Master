@@ -1,3 +1,62 @@
-.gradle
-build
-.idea
+# 빌드 출력물
+/build/
+/out/
+
+# Gradle Wrapper 캐시 파일
+.gradle/
+/!gradle/wrapper/gradle-wrapper.jar
+
+# 사용자 환경 설정 파일
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# MacOS에서 생성되는 파일
+.DS_Store
+
+# Windows에서 생성되는 파일
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Linux에서 생성되는 파일
+*.swp
+*.swo
+*~
+
+# 로그 파일
+*.log
+
+# IntelliJ IDEA / Android Studio
+/.idea/
+/*.iml
+.gradle/
+/local.properties
+/.idea/*
+.DS_Store
+
+# 환경 파일 (API 키, 비밀값 등)
+.env
+*.env
+
+# 실행 파일
+*.exe
+*.out
+*.apk
+*.class
+*.jar
+*.war
+*.ear
+*.pyc
+*.pyo
+*.pyd
+
+# Java용 Eclipse 파일
+.project
+.classpath
+.settings/
+
+# Maven Wrapper
+.mvn/
+!mvn/wrapper/maven-wrapper.jar
