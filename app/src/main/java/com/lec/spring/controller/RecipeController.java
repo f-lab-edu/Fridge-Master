@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/recipe")
 public class RecipeController {
 
+    public static class Recipe {
+
+    }
+
     @PostMapping("/register")
     public String registerRec() {
         return "레시피 등록 성공.";

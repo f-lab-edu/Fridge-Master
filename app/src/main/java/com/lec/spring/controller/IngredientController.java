@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ingredient")
 public class IngredientController {
 
+    public static class Ingredient {
+
+    }
+
     @PostMapping("/register")
     public String registerIng() {
         return "재료 등록 성공";
