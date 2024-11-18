@@ -1,5 +1,5 @@
 # 빌드 출력물
-/build/
+build/
 /out/
 
 # Gradle Wrapper 캐시 파일
@@ -39,24 +39,3 @@ desktop.ini
 # 환경 파일 (API 키, 비밀값 등)
 .env
 *.env
-
-# 실행 파일
-*.exe
-*.out
-*.apk
-*.class
-*.jar
-*.war
-*.ear
-*.pyc
-*.pyo
-*.pyd
-
-# Java용 Eclipse 파일
-.project
-.classpath
-.settings/
-
-# Maven Wrapper
-.mvn/
-!mvn/wrapper/maven-wrapper.jar
