@@ -1,27 +1,14 @@
 package com.lec.spring.controller;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.lec.spring.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountController {
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class User {
-        private Long id;
-        private String username;
-        private String nickname;
-        private String password;
-        private String email;
-    }
+
 
     @PostMapping("/joinUser")
     public ResponseEntity<?> joinUser(@RequestBody User user) {
