@@ -2,7 +2,6 @@ package com.lec.spring.controller;
 
 
 import com.lec.spring.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +15,21 @@ public class AccountController {
     @PostMapping("/joinUser")
     public ResponseEntity<?> joinUser(@RequestBody User user) {
 
-        ++userId;
-        user.setId(userId);
+        user.setId(++userId);
+
+        user.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .password(user.getPassword())
+                .email(user.getEmail())
+                .build();
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/info/{id}")
     public ResponseEntity<?> accountInfo(@PathVariable Long id) {
-
-        User user = new User();
-
-        return ResponseEntity.ok(user);
+        return null;
     }
 
     @PutMapping("/update/{id}")
