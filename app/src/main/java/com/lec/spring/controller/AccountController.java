@@ -5,17 +5,20 @@ import com.lec.spring.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/account")
 public class AccountController {
 
-
-    public static Long userId = 0L;
+    private static final Map<Long, User> userStore = new HashMap<Long, User>();
+    private static Long id = 0L;
 
     @PostMapping("/joinUser")
     public ResponseEntity<?> joinUser(@RequestBody User user) {
 
-        user.setId(++userId);
+        user.setId(++id);
 
         user.builder()
                 .id(user.getId())
@@ -24,21 +27,35 @@ public class AccountController {
                 .password(user.getPassword())
                 .email(user.getEmail())
                 .build();
+
+        userStore.put(user.getId(), user);
+
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/info/{id}")
-    public ResponseEntity<?> accountInfo(@PathVariable Long id) {
-        return null;
+    public ResponseEntity<?> userInfo(@PathVariable Long id) {
+
+        return ResponseEntity.ok(userStore.get(id));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUserinfo(@PathVariable Long id, @RequestBody User user) {
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+
+        User oldUser = userStore.get(id);
+
+
+        oldUser.setNickname(user.getNickname());
+        oldUser.setPassword(user.getPassword());
+        oldUser.setEmail(user.getEmail());
+
+        userStore.put(id, oldUser);
+        return ResponseEntity.ok(userStore.get(id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        return "회원탈퇴 성공.";
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userStore.remove(id);
+        return ResponseEntity.ok("삭제 성공");
     }
 }
