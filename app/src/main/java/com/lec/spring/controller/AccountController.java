@@ -36,11 +36,20 @@ public class AccountController {
     @GetMapping("/info/{id}")
     public ResponseEntity<?> userInfo(@PathVariable Long id) {
 
+
+        if (!userStore.containsKey(id)) {
+            return ResponseEntity.ok("유효하지 않은 ID 값입니다.");
+        }
+
         return ResponseEntity.ok(userStore.get(id));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+
+        if (!userStore.containsKey(id)) {
+            return ResponseEntity.ok("유효하지 않은 ID 값입니다.");
+        }
 
         User oldUser = userStore.get(id);
 
@@ -55,7 +64,17 @@ public class AccountController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+
+        if (!userStore.containsKey(id)) {
+            return ResponseEntity.ok("유효하지 않은 ID 값입니다.");
+        }
+
         userStore.remove(id);
         return ResponseEntity.ok("삭제 성공");
+    }
+
+
+    public boolean idExists(Long id) {
+        return userStore.containsKey(id);
     }
 }
