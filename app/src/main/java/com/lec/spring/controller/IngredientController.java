@@ -20,7 +20,8 @@ public class IngredientController {
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
 
         ing.setId(++id);
-
+//      todo
+//      기존 재료가 이미 등록된 재료인지 확인
 
         ing.builder()
                 .id(ing.getId())
