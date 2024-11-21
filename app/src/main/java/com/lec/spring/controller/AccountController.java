@@ -2,6 +2,7 @@ package com.lec.spring.controller;
 
 
 import com.lec.spring.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountController {
 
-    private static final Map<Long, User> userStore = new HashMap<Long, User>();
+    public static final Map<Long, User> userStore = new HashMap<Long, User>();
     private static Long id = 0L;
 
     @PostMapping("/joinUser")

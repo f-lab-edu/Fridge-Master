@@ -23,7 +23,6 @@ public class IngredientController {
 //      todo
 //      기존 재료가 이미 등록된 재료인지 확인
 
-
         ingredientStore.put(ing.getId(), ing);
         return ResponseEntity.ok(ing);
     }
@@ -45,8 +44,8 @@ public class IngredientController {
 
         if (!ingredientStore.containsKey(ingId)) {
             return ResponseEntity.ok("유효하지 않은 ID입니다.");
-        } else if (ingredientStore.containsValue(updatedIng.getName())) {
-            return ResponseEntity.ok("이미 등록된 재료입니다.");
+//        } else if (ingredientStore.containsValue(updatedIng.getName())) {
+//            return ResponseEntity.ok("이미 등록된 재료입니다.");
         } else {
             updatedIng.setId(ingId);
             ingredientStore.put(ingId, updatedIng);

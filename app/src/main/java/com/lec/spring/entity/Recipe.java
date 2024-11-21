@@ -14,8 +14,8 @@ import java.util.Map;
 public class Recipe {
     private Long id;
     private String name;
-    private String steps;
-    private Map<Ingredient, Integer> ingredients;
+    private String[] steps;
+    private Map<String, String> ingredients;
     private String imageUrl;
     private String uploadBy;    // 작성자
     private String uploadOn;    // 작성일

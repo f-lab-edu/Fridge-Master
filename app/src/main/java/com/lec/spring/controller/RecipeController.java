@@ -1,32 +1,79 @@
 package com.lec.spring.controller;
 
+import com.lec.spring.entity.Recipe;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
 
-    public static class Recipe {
 
-    }
+    private static final Map<Long, Recipe> recipes = new HashMap<>();
+    private static Long id = 0L;
 
     @PostMapping("/register")
-    public String registerRec() {
-        return "레시피 등록 성공.";
+    public ResponseEntity<?> registerRec(@RequestBody Recipe recipe) {
+
+        recipe.setId(++id);
+
+        // 작성일 저장
+        recipe.setUploadOn(uploadedTime());
+
+        /*
+          작성자 확인
+         */
+        // todo
+
+        recipes.put(recipe.getId(), recipe);
+
+        return ResponseEntity.ok(recipes.get(recipe.getId()));
     }
 
     @GetMapping("/search/{recId}")
-    public Recipe searchRec(@PathVariable Long recId){
-        return null;
+    public ResponseEntity<?> searchRec(@PathVariable Long recId){
+
+        if (!recipes.containsKey(recId)) {
+            return ResponseEntity.ok("레시피를 찾지 못 하였습니다.");
+        }
+
+        return ResponseEntity.ok(recipes.get(recId));
     }
 
     @PutMapping("/update/{recId}")
-    public Recipe updateRec(@PathVariable Long recId) {
-        return null;
+    public ResponseEntity<?> updateRec(@PathVariable Long recId, @RequestBody Recipe updatedRec) {
+        if (!recipes.containsKey(recId)) {
+            return ResponseEntity.ok("레시피를 찾지 못 하였습니다.");
+        }
+
+        updatedRec.setId(recId);
+        updatedRec.setUploadOn(uploadedTime());
+
+        recipes.put(recId, updatedRec);
+
+        return ResponseEntity.ok(recipes.get(recId));
     }
 
     @DeleteMapping("/delete/{recId}")
-    public String deleteRec(@PathVariable Long recId) {
-        return "삭제 완료";
+    public ResponseEntity deleteRec(@PathVariable Long recId) {
+        if (!recipes.containsKey(recId)) {
+            return ResponseEntity.ok("레시피를 찾지 못 하였습니다.");
+        }
+
+        recipes.remove(recId);
+        return ResponseEntity.ok("삭제 완료");
+    }
+
+
+    // 작성일(수정일) 계산
+    public String uploadedTime() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
     }
 }
