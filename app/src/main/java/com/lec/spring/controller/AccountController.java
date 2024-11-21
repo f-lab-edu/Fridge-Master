@@ -20,14 +20,6 @@ public class AccountController {
 
         user.setId(++id);
 
-        user.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .nickname(user.getNickname())
-                .password(user.getPassword())
-                .email(user.getEmail())
-                .build();
-
         userStore.put(user.getId(), user);
 
         return ResponseEntity.ok(user);

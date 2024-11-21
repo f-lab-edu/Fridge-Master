@@ -14,7 +14,7 @@ import java.util.Map;
 public class IngredientController {
 
     private static final Map<Long, Ingredient> ingredientStore = new HashMap<Long, Ingredient>();
-    public static Long id = 0L;
+    private static Long id = 0L;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
@@ -23,10 +23,6 @@ public class IngredientController {
 //      todo
 //      기존 재료가 이미 등록된 재료인지 확인
 
-        ing.builder()
-                .id(ing.getId())
-                .name(ing.getName())
-                .build();
 
         ingredientStore.put(ing.getId(), ing);
         return ResponseEntity.ok(ing);
