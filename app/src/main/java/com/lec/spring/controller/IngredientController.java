@@ -8,18 +8,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController {
 
-    private static final Map<Long, Ingredient> ingredientStore = new HashMap<Long, Ingredient>();
-    private static Long id = 0L;
+    private static final Map<Long, Ingredient> ingredientStore = new ConcurrentHashMap<Long, Ingredient>();
+    private static AtomicLong id = new AtomicLong(0);
 
     @PostMapping("/register")
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
 
-        ing.setId(++id);
+        ing.setId(id.incrementAndGet());
 //      todo
 //      기존 재료가 이미 등록된 재료인지 확인
 

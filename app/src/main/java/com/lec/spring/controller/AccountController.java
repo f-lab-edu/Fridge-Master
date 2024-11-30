@@ -8,18 +8,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
 
-    public static final Map<Long, User> userStore = new HashMap<Long, User>();
-    private static Long id = 0L;
+    public static final Map<Long, User> userStore = new ConcurrentHashMap<Long, User>();
+//    ConcurrentHashMap은 읽기 작업에는 여러 쓰레드가 동시에 읽을 수 있지만, 쓰기 작업에는 특정 세그먼트 or 버킷에 대한 Lock을 사용한다.
+
+
+    private static AtomicLong id = new AtomicLong(0);
 
     @PostMapping("/joinUser")
     public ResponseEntity<?> joinUser(@RequestBody User user) {
 
-        user.setId(++id);
+        user.setId(id.incrementAndGet());
 
         userStore.put(user.getId(), user);
 

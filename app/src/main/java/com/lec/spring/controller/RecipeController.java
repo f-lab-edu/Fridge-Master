@@ -8,19 +8,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
 
 
-    private static final Map<Long, Recipe> recipes = new HashMap<>();
-    private static Long id = 0L;
+    private static final Map<Long, Recipe> recipes = new ConcurrentHashMap<>();
+    private static AtomicLong id = new AtomicLong(0);
 
     @PostMapping("/register")
     public ResponseEntity<?> registerRec(@RequestBody Recipe recipe) {
 
-        recipe.setId(++id);
+        recipe.setId(id.incrementAndGet());
 
         // 작성일 저장
         recipe.setUploadOn(uploadedTime());
