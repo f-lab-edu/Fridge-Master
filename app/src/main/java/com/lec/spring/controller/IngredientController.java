@@ -16,8 +16,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping("/ingredient")
 public class IngredientController {
 
-    private static final Map<Long, Ingredient> ingredientStore = new ConcurrentHashMap<Long, Ingredient>();
-    private static AtomicLong id = new AtomicLong(0);
+    private final Map<Long, Ingredient> ingredientStore = new ConcurrentHashMap<Long, Ingredient>();
+    private AtomicLong id = new AtomicLong(0);
 
     @PostMapping("/register")
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
