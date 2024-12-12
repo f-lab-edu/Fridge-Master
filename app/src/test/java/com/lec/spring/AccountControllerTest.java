@@ -46,7 +46,7 @@ public class AccountControllerTest {
 
     // 회원가입 성공 / 회원정보 수정 / 회원 탈퇴
     @Test
-    public void testJoinUser_success() throws Exception {
+    public void test_success() throws Exception {
         User testUser = User.builder()
                 .username("kkamjang")
                 .nickname("깜장거북")
@@ -54,21 +54,33 @@ public class AccountControllerTest {
                 .email("mrg@naver.com")
                 .build();
 
+        // 회원가입 test
         ResponseEntity<User> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, new HttpEntity<>(testUser), User.class);
+        assertNotNull(response);
+        System.out.println("/account/joinUser");
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+
+        System.out.println("-".repeat(50));
+        // 회원정보 조회 test 성공
+        System.out.println("/account/info/1");
+        response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, new HttpEntity<>(null), User.class);
         assertNotNull(response);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-
-
-
+        System.out.println("-".repeat(50));
         // 수정하기 test
+        System.out.println("/account/update/1");
         testUser.setNickname("깜장");
         response = testRestTemplate.exchange("/account/update/1",HttpMethod.PUT, new HttpEntity<>(testUser), User.class);
         assertNotNull(response);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
+        System.out.println("-".repeat(50));
+        // 삭제하기 test
+        System.out.println("/account/delete/1");
         ResponseEntity<String> delResponse = testRestTemplate.exchange("/account/delete/1",HttpMethod.DELETE, new HttpEntity<>(testUser), String.class);
         assertNotNull(delResponse);
         System.out.println(delResponse.getStatusCode());
@@ -76,26 +88,33 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testJoinUser_failed() throws Exception {
+    public void test_failed() throws Exception {
         User testUser = new User();
         HttpEntity<User> request = new HttpEntity<>(testUser);
 
         ResponseEntity<String> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, request, String.class);
-        assertNotNull(response);
+        System.out.println("/account/joinUser");
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+
+        System.out.println("-".repeat(50));
+
+        System.out.println("/account/info/1");
+        response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, null, String.class);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+
+        System.out.println("-".repeat(50));
+
+        System.out.println("/account/update/1");
+        response = testRestTemplate.exchange("/account/update/1", HttpMethod.PUT, request, String.class);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+
+        System.out.println("-".repeat(50));
+        System.out.println("/account/delete/1");
+        response = testRestTemplate.exchange("/account/delete/1", HttpMethod.DELETE, null, String.class);
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
     }
-
-
-    @Test
-    public void getAccount() throws Exception {
-
-        ResponseEntity<User> response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, null, User.class);
-//        response.getStatusCode()
-                // assert
-
-        // Then: 응답 검증
-
-    }
-
 }
