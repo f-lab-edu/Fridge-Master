@@ -22,9 +22,17 @@ public class IngredientController {
     @PostMapping("/register")
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
 
+        if (ing.getName() == null || ing.getName().trim().equals("")) {
+            return ResponseEntity.badRequest().body("재료명이 입력되지 않았습니다.");
+        }
+        boolean isDuplicate = ingredientStore.values().stream()
+                .anyMatch(existingIng -> existingIng.getName().equalsIgnoreCase(ing.getName()));
+
+        if (isDuplicate) {
+            return ResponseEntity.badRequest().body("이미 등록된 재료입니다.");
+        }
+
         ing.setId(id.incrementAndGet());
-//      todo
-//      기존 재료가 이미 등록된 재료인지 확인
 
         ingredientStore.put(ing.getId(), ing);
         return ResponseEntity.ok(ing);
@@ -34,7 +42,7 @@ public class IngredientController {
     public ResponseEntity<?> searchIng(@PathVariable Long ingId) {
 
         if (!ingredientStore.containsKey(ingId)) {
-            return ResponseEntity.ok("유효하지 않은 ID입니다.");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(ingredientStore.get(ingId));
@@ -43,16 +51,22 @@ public class IngredientController {
     @PutMapping("/update/{ingId}")
     public ResponseEntity<?> updateIng(@PathVariable Long ingId, @RequestBody Ingredient updatedIng) {
 
+
+        if (ingredientStore.containsKey(ingId) == false) {
+            return ResponseEntity.badRequest().body("유효하지 않은 ID입니다.");
+        }
+
         Ingredient oldIng = ingredientStore.get(ingId);
 
-        if (!ingredientStore.containsKey(ingId)) {
-            return ResponseEntity.ok("유효하지 않은 ID입니다.");
-//        } else if (ingredientStore.containsValue(updatedIng.getName())) {
-//            return ResponseEntity.ok("이미 등록된 재료입니다.");
-        } else {
-            updatedIng.setId(ingId);
-            ingredientStore.put(ingId, updatedIng);
+        boolean isDuplicate = ingredientStore.values().stream()
+                .anyMatch(existingIng -> existingIng.getName().equalsIgnoreCase(updatedIng.getName()));
+
+        if (isDuplicate) {
+            return ResponseEntity.badRequest().body("이미 등록된 재료입니다.");
         }
+
+        updatedIng.setId(ingId);
+        ingredientStore.put(ingId, updatedIng);
 
 
         return ResponseEntity.ok(ingredientStore.get(ingId));

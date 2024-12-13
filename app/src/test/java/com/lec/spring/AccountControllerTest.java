@@ -36,8 +36,8 @@ public class AccountControllerTest {
 //    @Autowired
 //    private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
 
     @Autowired
