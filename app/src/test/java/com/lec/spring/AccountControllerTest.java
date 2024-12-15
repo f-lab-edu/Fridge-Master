@@ -5,6 +5,8 @@ import com.lec.spring.controller.AccountController;
 import com.lec.spring.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,6 +45,8 @@ public class AccountControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
 
     // 회원가입 성공 / 회원정보 수정 / 회원 탈퇴
     @Test
@@ -58,16 +62,14 @@ public class AccountControllerTest {
         ResponseEntity<User> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, new HttpEntity<>(testUser), User.class);
         assertNotNull(response);
         System.out.println("/account/joinUser");
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.info(response.getStatusCode() + " : " + response.getBody());
 
         System.out.println("-".repeat(50));
         // 회원정보 조회 test 성공
         System.out.println("/account/info/1");
         response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, new HttpEntity<>(null), User.class);
         assertNotNull(response);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.info(response.getStatusCode() + " : " + response.getBody());
 
 
 
@@ -76,8 +78,7 @@ public class AccountControllerTest {
         System.out.println("/account/delete/1");
         ResponseEntity<String> delResponse = testRestTemplate.exchange("/account/delete/1",HttpMethod.DELETE, new HttpEntity<>(testUser), String.class);
         assertNotNull(delResponse);
-        System.out.println(delResponse.getStatusCode());
-        System.out.println(delResponse.getBody());
+        log.info(delResponse.getStatusCode() + " : " + delResponse.getBody());
     }
 
     @Test
@@ -88,17 +89,16 @@ public class AccountControllerTest {
                 .password("1592")
                 .email("mrg@naver.com")
                 .build();
-        ResponseEntity<User> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, new HttpEntity<>(testUser), User.class);
+        HttpEntity<User> request = new HttpEntity<>(testUser);
+        testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, request, User.class);
+        ResponseEntity<User> response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, null, User.class);
         System.out.println("변경 전");
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
-        System.out.println("/account/update/1");
+        log.info(response.getStatusCode() + " : " + response.getBody());
         testUser.setNickname("깜장");
         response = testRestTemplate.exchange("/account/update/1",HttpMethod.PUT, new HttpEntity<>(testUser), User.class);
         assertNotNull(response);
         System.out.println("변경 후");
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.info(response.getStatusCode() + " : " + response.getBody());
     }
 
     @Test
@@ -108,27 +108,22 @@ public class AccountControllerTest {
 
         ResponseEntity<String> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, request, String.class);
         System.out.println("/account/joinUser");
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.error(response.getStatusCode() + ":" + response.getBody());
 
         System.out.println("-".repeat(50));
 
         System.out.println("/account/info/1");
         response = testRestTemplate.exchange("/account/info/1", HttpMethod.GET, null, String.class);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.error(response.getStatusCode() + ":" + response.getBody());
 
         System.out.println("-".repeat(50));
-
         System.out.println("/account/update/1");
         response = testRestTemplate.exchange("/account/update/1", HttpMethod.PUT, request, String.class);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.error(response.getStatusCode() + ":" + response.getBody());
 
         System.out.println("-".repeat(50));
         System.out.println("/account/delete/1");
         response = testRestTemplate.exchange("/account/delete/1", HttpMethod.DELETE, null, String.class);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        log.error(response.getStatusCode() + ":" + response.getBody());
     }
 }
