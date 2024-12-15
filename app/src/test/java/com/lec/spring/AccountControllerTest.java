@@ -69,14 +69,7 @@ public class AccountControllerTest {
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-        System.out.println("-".repeat(50));
-        // 수정하기 test
-        System.out.println("/account/update/1");
-        testUser.setNickname("깜장");
-        response = testRestTemplate.exchange("/account/update/1",HttpMethod.PUT, new HttpEntity<>(testUser), User.class);
-        assertNotNull(response);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+
 
         System.out.println("-".repeat(50));
         // 삭제하기 test
@@ -85,6 +78,27 @@ public class AccountControllerTest {
         assertNotNull(delResponse);
         System.out.println(delResponse.getStatusCode());
         System.out.println(delResponse.getBody());
+    }
+
+    @Test
+    public void update_test() throws Exception {
+        User testUser = User.builder()
+                .username("kkamjang")
+                .nickname("깜장거북")
+                .password("1592")
+                .email("mrg@naver.com")
+                .build();
+        ResponseEntity<User> response = testRestTemplate.exchange("/account/joinUser", HttpMethod.POST, new HttpEntity<>(testUser), User.class);
+        System.out.println("변경 전");
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+        System.out.println("/account/update/1");
+        testUser.setNickname("깜장");
+        response = testRestTemplate.exchange("/account/update/1",HttpMethod.PUT, new HttpEntity<>(testUser), User.class);
+        assertNotNull(response);
+        System.out.println("변경 후");
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
     }
 
     @Test
