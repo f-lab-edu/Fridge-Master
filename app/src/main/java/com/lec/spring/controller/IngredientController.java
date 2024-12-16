@@ -19,6 +19,9 @@ public class IngredientController {
     private final Map<Long, Ingredient> ingredientStore = new ConcurrentHashMap<Long, Ingredient>();
     private AtomicLong id = new AtomicLong(0);
 
+    // todo
+    // Response 공통 응답 구조
+
     @PostMapping("/register")
     public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
 

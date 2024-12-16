@@ -49,6 +49,7 @@ public class AccountControllerTest {
 
 
     // 회원가입 성공 / 회원정보 수정 / 회원 탈퇴
+    // 세부적으로 분류할 것
     @Test
     public void test_success() throws Exception {
         User testUser = User.builder()
