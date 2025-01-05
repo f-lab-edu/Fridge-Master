@@ -3,13 +3,19 @@ package com.lec.spring.service;
 import com.lec.spring.entity.Ingredient;
 import com.lec.spring.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+@Service
 public class IngredientServiceImpl implements IngredientService {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    public IngredientServiceImpl(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @Override
     public int registerIng(Ingredient ingredient) {
@@ -23,7 +29,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public int updateIng(Ingredient ingredient) {
-        Ingredient updateIng = ingredientRepository.findById(new AtomicLong(ingredient.getId())).orElse(null);
+        Ingredient updateIng = ingredientRepository.findById(ingredient.getId()).orElse(null);
         if(updateIng == null) return 0;
 
         updateIng.setName(ingredient.getName());
@@ -33,7 +39,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public int deleteIng(AtomicLong id) {
+    public int deleteIng(Long id) {
         boolean exists = ingredientRepository.existsById(id);
         if(!exists) return 0;
 
@@ -41,9 +47,9 @@ public class IngredientServiceImpl implements IngredientService {
         return 1;
     }
 
-    @Override
-    public Ingredient getIng(AtomicLong id) {
-        Ingredient ing = ingredientRepository.findById(id);
-        return null;
-    }
+//    @Override
+//    public Ingredient getIng(Long id) {
+//        Ingredient ing = ingredientRepository.findById(id);
+//        return null;
+//    }
 }

@@ -9,7 +9,7 @@ public interface IngredientService {
 
     int updateIng(Ingredient ingredient);
 
-    int deleteIng(AtomicLong id);
+    int deleteIng(Long id);
 
-    Ingredient getIng(AtomicLong id);
+//    Ingredient getIng(Long id);
 }
