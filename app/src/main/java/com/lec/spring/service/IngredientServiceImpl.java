@@ -5,7 +5,6 @@ import com.lec.spring.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -18,33 +17,33 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public int registerIng(Ingredient ingredient) {
-        int result = 0;
+    public Ingredient registerIngredient(Ingredient ingredient) {
         if(ingredient != null) {
-            ingredientRepository.save(ingredient);
-            result = 1;
+            return ingredientRepository.save(ingredient);
         }
-        return result;
+        return null;
     }
 
     @Override
-    public int updateIng(Ingredient ingredient) {
+    public Ingredient updateIngredient(Ingredient ingredient) {
         Ingredient updateIng = ingredientRepository.findById(ingredient.getId()).orElse(null);
-        if(updateIng == null) return 0;
+        if(updateIng == null) return null;
 
         updateIng.setName(ingredient.getName());
-        ingredientRepository.save(updateIng);
 
-        return 1;
+        return ingredientRepository.save(updateIng);
     }
 
     @Override
-    public int deleteIng(Long id) {
+    public Ingredient deleteIngredient(Long id) {
         boolean exists = ingredientRepository.existsById(id);
-        if(!exists) return 0;
+        if(!exists) return null;
+
+        Ingredient deletedIngredient = ingredientRepository.findById(id).orElse(null);
+        if(deletedIngredient == null) return null;
 
         ingredientRepository.deleteById(id);
-        return 1;
+        return deletedIngredient;
     }
 
 //    @Override

@@ -5,11 +5,11 @@ import com.lec.spring.entity.Ingredient;
 import java.util.concurrent.atomic.AtomicLong;
 
 public interface IngredientService {
-    int registerIng(Ingredient ingredient);
+    Ingredient registerIngredient(Ingredient ingredient);
 
-    int updateIng(Ingredient ingredient);
+    Ingredient updateIngredient(Ingredient ingredient);
 
-    int deleteIng(Long id);
+    Ingredient deleteIngredient(Long id);
 
 //    Ingredient getIng(Long id);
 }
