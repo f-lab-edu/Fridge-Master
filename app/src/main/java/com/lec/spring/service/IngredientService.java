@@ -11,5 +11,7 @@ public interface IngredientService {
 
     Ingredient deleteIngredient(Long id);
 
-//    Ingredient getIng(Long id);
+    Ingredient getIngredient(Long id);
+
+    boolean existIngredient(String name);
 }

@@ -18,16 +18,17 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient registerIngredient(Ingredient ingredient) {
-        if(ingredient != null) {
-            return ingredientRepository.save(ingredient);
+        if (ingredient == null) {
+            return null;
         }
-        return null;
+
+        return ingredientRepository.save(ingredient);
     }
 
     @Override
     public Ingredient updateIngredient(Ingredient ingredient) {
         Ingredient updateIng = ingredientRepository.findById(ingredient.getId()).orElse(null);
-        if(updateIng == null) return null;
+        if (updateIng == null) return null;
 
         updateIng.setName(ingredient.getName());
 
@@ -37,18 +38,24 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Ingredient deleteIngredient(Long id) {
         boolean exists = ingredientRepository.existsById(id);
-        if(!exists) return null;
+        if (!exists) return null;
 
         Ingredient deletedIngredient = ingredientRepository.findById(id).orElse(null);
-        if(deletedIngredient == null) return null;
+        if (deletedIngredient == null) return null;
 
         ingredientRepository.deleteById(id);
         return deletedIngredient;
     }
 
-//    @Override
-//    public Ingredient getIng(Long id) {
-//        Ingredient ing = ingredientRepository.findById(id);
-//        return null;
-//    }
+    @Override
+    public Ingredient getIngredient(Long id) {
+        return ingredientRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean existIngredient(String name) {
+        return ingredientRepository.existsByName(name);
+    }
+
+
 }
