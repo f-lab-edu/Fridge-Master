@@ -2,10 +2,15 @@ package com.lec.spring.service;
 
 import com.lec.spring.entity.User;
 import com.lec.spring.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AccountServiceImpl implements AccountService {
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     private final AccountRepository accountRepository;
 
@@ -15,27 +20,27 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public int join(User user) {
-        return accountRepository.save(user);
+        int result = 0;
+        user.setUsername(user.getUsername().toUpperCase());
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        accountRepository.save(user);
+        return 1;
     }
 
     @Override
-    public User detail(AtomicLong id) {
-        return accountRepository.findById(id);
+    public User detail(Long id) {
+        accountRepository.findById(id);
+        return null;
     }
 
     @Override
     public int update(User user) {
-        return accountRepository.update(user);
+        return 1;
     }
 
     @Override
-    public int delete(AtomicLong id) {
-        int result = 0;
-        User user = accountRepository.findById(id);
-
-        if (user != null) {
-            result = accountRepository.delete(user);
-        }
-        return result;
+    public int delete(Long id) {
+        return 0;
     }
+
 }
