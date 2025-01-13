@@ -56,10 +56,12 @@ public class IngredientController {
 
 
         Ingredient oldIngredient = ingredientService.getIngredient(id);
-
-        if (ingredientService.existIngredient(oldIngredient.getName())) {
+        System.out.println(oldIngredient.getName());
+        if (ingredientService.existIngredient(updatedIngredient.getName())) {
             return ResponseEntity.badRequest().body("이미 등록된 재료입니다.");
         }
+
+        updatedIngredient.setId(id);
         return ResponseEntity.ok(ingredientService.updateIngredient(updatedIngredient));
     }
 
