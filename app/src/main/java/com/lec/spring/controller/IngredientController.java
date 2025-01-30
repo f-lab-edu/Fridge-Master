@@ -54,7 +54,6 @@ public class IngredientController {
             return ResponseEntity.badRequest().body("유효하지 않은 ID입니다.");
         }
 
-
         Ingredient oldIngredient = ingredientService.getIngredient(id);
         System.out.println(oldIngredient.getName());
         if (ingredientService.existIngredient(updatedIngredient.getName())) {
