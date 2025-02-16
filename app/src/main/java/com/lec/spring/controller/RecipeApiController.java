@@ -1,8 +1,10 @@
 package com.lec.spring.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import com.lec.spring.repository.RecipeRepository;
-import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 @RestController
@@ -39,6 +38,13 @@ public class RecipeApiController {
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONArray recipes = (JSONArray) jsonObject.get("row");
+
+            for (int i = 0; i < recipes.size(); i++) {
+                JSONObject recipe = (JSONObject) recipes.get(i);
+                String ingredients = (String) recipe.get("RCP_PARTS_DTLS");
+                String recipeWay = (String) recipe.get("RCP_WAY2");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
