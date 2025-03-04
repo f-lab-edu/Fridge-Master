@@ -1,5 +1,6 @@
 package com.lec.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
@@ -22,14 +24,15 @@ public class Recipe {
     private Long id;
     private String name;
 
+    private String ingredients;
     private String recipeWay;   // ex) 끓이기, 찌기 등
-    private String recipeCategory; // ex) 밥, 반찬, 국/찌개, 후식 등
+    private String recipeTip;
+    private String recipeType; // ex) 밥, 반찬, 국/찌개, 후식 등
     private String hashtag;
 
 
-    private String recipeImage;
+    private String originImage;
 
-    private String ingredients;
 
     private String manual01;
     private String manual02;
@@ -73,7 +76,8 @@ public class Recipe {
     private String manual19Image;
     private String manual20Image;
 
-    private String imageUrl;
+    private String mainImage;
     private String uploadBy;    // 작성자
+
     private String uploadOn;    // 작성일
 }
