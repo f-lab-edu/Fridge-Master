@@ -3,7 +3,7 @@ package com.lec.spring.controller;
 
 import com.lec.spring.entity.Recipe;
 import com.lec.spring.repository.RecipeRepository;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +44,8 @@ public class RecipeApiController {
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-            JSONArray recipes = (JSONArray) jsonObject.get("row");
+            JSONObject cookRcp01 = (JSONObject) jsonObject.get("COOKRCP01");
+            JSONArray recipes = (JSONArray) cookRcp01.get("row");
 
             for (int i = 0; i < recipes.size(); i++) {
                 JSONObject data = (JSONObject) recipes.get(i);
