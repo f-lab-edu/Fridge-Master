@@ -6,6 +6,7 @@ import com.lec.spring.repository.RecipeRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/api")
 public class RecipeApiController {
     // https://openapi.foodsafetykorea.go.kr/api/e914980e7cc34724a74b/COOKRCP01/json/1001/2000
+
+    @Autowired
     private RecipeRepository recipeRepository;
 
     @Value("${recipe.api.key}")
@@ -46,6 +49,8 @@ public class RecipeApiController {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
             JSONObject cookRcp01 = (JSONObject) jsonObject.get("COOKRCP01");
             JSONArray recipes = (JSONArray) cookRcp01.get("row");
+
+            System.out.println(recipes.size());
 
             for (int i = 0; i < recipes.size(); i++) {
                 JSONObject data = (JSONObject) recipes.get(i);
