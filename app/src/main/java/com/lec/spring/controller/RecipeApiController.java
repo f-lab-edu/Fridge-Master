@@ -49,7 +49,7 @@ public class RecipeApiController {
             JSONObject cookRcp01 = (JSONObject) jsonObject.get("COOKRCP01");
             JSONArray recipes = (JSONArray) cookRcp01.get("row");
 
-//            System.out.println(recipes.size());
+            System.out.println(recipes.size());
 
             for (int i = 0; i < recipes.size(); i++) {
                 JSONObject data = (JSONObject) recipes.get(i);
