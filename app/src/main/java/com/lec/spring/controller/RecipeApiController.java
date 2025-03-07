@@ -35,7 +35,6 @@ public class RecipeApiController {
     @GetMapping("/{startIndex}/{endIndex}")
     public void saveRecipe(@PathVariable int startIndex, @PathVariable int endIndex) {
 
-        Recipe recipe = new Recipe();
 
         String apiurl = String.format("https://openapi.foodsafetykorea.go.kr/api/%s/COOKRCP01/json/%d/%d", apikey, startIndex, endIndex);
         try {
@@ -50,7 +49,7 @@ public class RecipeApiController {
             JSONObject cookRcp01 = (JSONObject) jsonObject.get("COOKRCP01");
             JSONArray recipes = (JSONArray) cookRcp01.get("row");
 
-            System.out.println(recipes.size());
+//            System.out.println(recipes.size());
 
             for (int i = 0; i < recipes.size(); i++) {
                 JSONObject data = (JSONObject) recipes.get(i);
@@ -111,7 +110,7 @@ public class RecipeApiController {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
-                recipe.builder()
+                Recipe recipe = Recipe.builder()
                         .name(recipeName)
                         .ingredients(ingredients)
                         .recipeWay(recipeWay)
@@ -163,12 +162,12 @@ public class RecipeApiController {
                         .uploadBy("administrator")
                         .uploadOn(now.format(formatter))
                         .build();
+//                System.out.println(recipe);
                 recipeRepository.save(recipe);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("데이터 저장 완료");
     }
 }
