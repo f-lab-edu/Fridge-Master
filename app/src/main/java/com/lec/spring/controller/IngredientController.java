@@ -3,6 +3,8 @@ package com.lec.spring.controller;
 
 import com.lec.spring.entity.Ingredient;
 import com.lec.spring.entity.User;
+import com.lec.spring.service.IngredientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,69 +18,60 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping("/ingredient")
 public class IngredientController {
 
-    private final Map<Long, Ingredient> ingredientStore = new ConcurrentHashMap<Long, Ingredient>();
-    private AtomicLong id = new AtomicLong(0);
+    @Autowired
+    private IngredientService ingredientService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerIng(@RequestBody Ingredient ing) {
+    public ResponseEntity<?> registerIngredient(@RequestBody Ingredient ing) {
 
         if (ing.getName() == null || ing.getName().trim().equals("")) {
             return ResponseEntity.badRequest().body("재료명이 입력되지 않았습니다.");
         }
-        boolean isDuplicate = ingredientStore.values().stream()
-                .anyMatch(existingIng -> existingIng.getName().equalsIgnoreCase(ing.getName()));
 
-        if (isDuplicate) {
+        if (ingredientService.existIngredient(ing.getName())) {
             return ResponseEntity.badRequest().body("이미 등록된 재료입니다.");
         }
 
-        ing.setId(id.incrementAndGet());
+        ingredientService.registerIngredient(ing);
 
-        ingredientStore.put(ing.getId(), ing);
         return ResponseEntity.ok(ing);
     }
 
-    @GetMapping("/search/{ingId}")
-    public ResponseEntity<?> searchIng(@PathVariable Long ingId) {
+    @GetMapping("/search/{id}")
+    public ResponseEntity<?> searchIng(@PathVariable Long id) {
 
-        if (!ingredientStore.containsKey(ingId)) {
+        if (ingredientService.getIngredient(id) == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(ingredientStore.get(ingId));
+        return ResponseEntity.ok(ingredientService.getIngredient(id));
     }
 
-    @PutMapping("/update/{ingId}")
-    public ResponseEntity<?> updateIng(@PathVariable Long ingId, @RequestBody Ingredient updatedIng) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateIngredient(@PathVariable Long id, @RequestBody Ingredient updatedIngredient) {
 
-
-        if (ingredientStore.containsKey(ingId) == false) {
+        if(ingredientService.getIngredient(id) == null) {
             return ResponseEntity.badRequest().body("유효하지 않은 ID입니다.");
         }
 
-        Ingredient oldIng = ingredientStore.get(ingId);
-
-        boolean isDuplicate = ingredientStore.values().stream()
-                .anyMatch(existingIng -> existingIng.getName().equalsIgnoreCase(updatedIng.getName()));
-
-        if (isDuplicate) {
+        Ingredient oldIngredient = ingredientService.getIngredient(id);
+        System.out.println(oldIngredient.getName());
+        if (ingredientService.existIngredient(updatedIngredient.getName())) {
             return ResponseEntity.badRequest().body("이미 등록된 재료입니다.");
         }
 
-        updatedIng.setId(ingId);
-        ingredientStore.put(ingId, updatedIng);
-
-
-        return ResponseEntity.ok(ingredientStore.get(ingId));
+        updatedIngredient.setId(id);
+        return ResponseEntity.ok(ingredientService.updateIngredient(updatedIngredient));
     }
 
     @DeleteMapping("/delete/{ingId}")
-    public ResponseEntity<?> deleteIng(@PathVariable Long ingId) {
-        if (!ingredientStore.containsKey(ingId)) {
+    public ResponseEntity<?> deleteIng(@PathVariable Long id) {
+        if (ingredientService.getIngredient(id) == null) {
             return ResponseEntity.ok("유효하지 않은 ID입니다.");
         }
 
-        ingredientStore.remove(ingId);
-        return ResponseEntity.ok("삭제 완료");
+        Ingredient deletedIngredient = ingredientService.getIngredient(id);
+        ingredientService.deleteIngredient(id);
+        return ResponseEntity.ok(deletedIngredient);
     }
 }

@@ -1,0 +1,9 @@
+insert into ingredient value (2, "청양고추");
+insert into ingredient value (3, "피망");
+insert into ingredient value (4, "감자");
+insert into ingredient value (5, "고구마");
+insert into ingredient value (6, "파프리카");
+insert into ingredient value (7, "양파");
+insert into ingredient value (8, "마늘");
+insert into ingredient value (9, "고추장");
+insert into ingredient value (10, "된장");
