@@ -3,6 +3,7 @@ package com.lec.spring.controller;
 
 import com.lec.spring.entity.Recipe;
 import com.lec.spring.repository.RecipeRepository;
+import com.lec.spring.service.RecipeService;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -24,8 +25,9 @@ import java.time.format.DateTimeFormatter;
 public class RecipeApiController {
     // https://openapi.foodsafetykorea.go.kr/api/e914980e7cc34724a74b/COOKRCP01/json/1001/2000
 
+
     @Autowired
-    private RecipeRepository recipeRepository;
+    private RecipeService recipeService;
 
     @Value("${recipe.api.key}")
     private String apikey;

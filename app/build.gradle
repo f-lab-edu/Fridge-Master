@@ -21,7 +21,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.34'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'com.mysql:mysql-connector-j'
 }
 

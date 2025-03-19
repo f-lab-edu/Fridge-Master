@@ -5,6 +5,8 @@ import com.lec.spring.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RecipeService {
 
@@ -12,6 +14,13 @@ public class RecipeService {
     private RecipeRepository recipeRepository;
 
     public Recipe saveRecipe(Recipe recipe) {
+        if(recipe == null) {
+            return null;
+        }
         return recipeRepository.save(recipe);
+    }
+
+    public List<Recipe> findByName(String name) {
+        return recipeRepository.findByName(name);
     }
 }
